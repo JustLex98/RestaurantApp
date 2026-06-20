@@ -31,6 +31,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -143,7 +145,7 @@ fun RestaurantOrderApp(
 
                 if (isEmpty) {
                     Text(
-                        text = "El pedido está vacío. Añade productos del menú.",
+                        text = "Tu pedido está vacío",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.6f),
                         modifier = Modifier
@@ -217,7 +219,7 @@ fun RestaurantOrderApp(
             },
             text = {
                 Text(
-                    text = "¡Pedido de ${orderConfirmation.itemCount} artículos por un total de %.2f € recibido! Preparen los fogones.".format(orderConfirmation.total),
+                    text = "¡Pedido realizado! Su pedido de ${orderConfirmation.itemCount} artículos por un total de %.2f € ha sido recibido.".format(orderConfirmation.total),
                     modifier = Modifier.testTag("confirmationMessage")
                 )
             },
@@ -277,7 +279,9 @@ private fun CategorySection(
 
             Button(
                 onClick = { onAddItem(item) },
-                modifier = Modifier.testTag("addButton_${item.id}")
+                modifier = Modifier
+                    .testTag("addButton_${item.id}")
+                    .semantics { contentDescription = "Añadir ${item.name}" }
             ) {
                 Text("+")
             }
